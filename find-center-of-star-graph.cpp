@@ -19,7 +19,6 @@ class Graph {
         int getCenter(){
             int numberOfNodes = static_cast<int>(adjacentList->size());
             
-            return numberOfNodes;
             for(int i=0; i<numberOfNodes; i++){
                 int numberOfEdges = static_cast<int>(adjacentList[i].size());
                 if(numberOfEdges == NumberOfNodes - 1){
