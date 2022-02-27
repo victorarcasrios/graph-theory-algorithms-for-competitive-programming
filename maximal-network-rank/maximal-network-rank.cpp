@@ -33,12 +33,35 @@ class Graph {
         }
 
         int calculateMaximalNetworkRank() {
+            int max = 0;
             vector<pair<int, int>> edges;
 
             for (auto nodeAndNeighbours : adjacentList) {
-                auto node = nodeAndNeighbours.first;
-                auto neighbours = nodeAndNeighbours.second;
+                auto nodeA = nodeAndNeighbours.first;
+                for (auto nodeAndNeighbours2 : adjacentList) {
+                    auto nodeB = nodeAndNeighbours2.first;
 
+                    if (nodeA == nodeB)
+                        continue;
+
+                    auto pairMax = calculateNetworkRank(nodeA, nodeB);
+
+                    if (pairMax > max)
+                        max = pairMax;
+                }
+            }
+
+            return max;
+        }
+
+    private:
+
+        int calculateNetworkRank(int nodeA, int nodeB) {
+            vector<int> nodes { nodeA, nodeB };
+            vector<pair<int, int>> edges;
+
+            for (auto node : nodes) {
+                auto neighbours = adjacentList[node];
                 for (auto neighbour : neighbours) {
                     pair<int, int> edge(node, neighbour);
                     if (containsPair(edges, edge))
@@ -50,8 +73,6 @@ class Graph {
 
             return edges.size();
         }
-
-    private:
 
         bool containsPair(vector<pair<int, int>> pairs, pair<int, int> pair) {
             for (auto p : pairs) {
