@@ -12,8 +12,11 @@ class Graph {
     }
 
     void addEdge(int a, int b){
-        adjacentList[a].push_back(b);
-        adjacentList[b].push_back(a);        
+        if(!contains(adjacentList[a], b))
+            adjacentList[a].push_back(b);
+
+        if(!contains(adjacentList[b], a))
+            adjacentList[b].push_back(a);        
     }
 
     void print() {
@@ -46,13 +49,13 @@ class Graph {
             checkedNodes.push_back(node);
 
             for (auto neighbour : adjacentList[node]) {
-                if (!contains(graphNodes, neighbour))
+                if (!contains(graphNodes, neighbour)) {
                     graphNodes.push_back(neighbour);
+                }
 
                 if (!contains(nodesToCheck, neighbour)
-                        && !contains(checkedNodes, neighbour)) {
+                        && !contains(checkedNodes, neighbour))
                     nodesToCheck.push_back(neighbour);
-                }
             }
 
             if (nodesToCheck.size() == 0) {
@@ -191,8 +194,9 @@ class Graph {
             graph.addNode(node);
 
         for (auto node : nodes) {
-            for (auto neighbour : adjacentList[node])
+            for (auto neighbour : adjacentList[node]) {
                 graph.addEdge(node, neighbour);
+            }
         }
 
         return graph;
